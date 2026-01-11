@@ -1,0 +1,216 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+
+enum DestinationType {
+  POSTHOG
+  GA4
+  META_CAPI
+  GOOGLE_ADS_OFFLINE
+  MICROSOFT_ADS_OFFLINE
+  TIKTOK_EVENTS_API
+  SNAP_CAPI
+  PINTEREST_CAPI
+  LINKEDIN_CONVERSIONS
+  NEXTDOOR_ADS
+  YELP_ADS
+  ANGI
+  THUMBTACK
+  TABOOLA
+  OUTBRAIN
+  CRITEO
+  TRADEDESK
+}
+
+model User {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  email        String   @unique
+  name         String?
+  passwordHash String
+  passwordSalt String
+
+  role         String   @default("viewer")
+  isActive     Boolean  @default(true)
+
+  lastLoginAt  DateTime?
+
+  @@index([email])
+}
+
+model Destination {
+  id          String          @id @default(cuid())
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  type        DestinationType
+  name        String
+  isEnabled   Boolean         @default(false)
+
+  # Encrypted JSON: API keys/tokens/config. Store encrypted blob only.
+  configEnc   String?
+
+  # Optional routing
+  includeEvents String[]      @default([])
+  excludeEvents String[]      @default([])
+
+  @@unique([type, name])
+  @@index([isEnabled])
+}
+
+model Market {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  country   String   @default("US")
+  state     String
+  county    String?
+  city      String?
+  zip       String?
+
+  isActive  Boolean  @default(true)
+  notes     String?
+
+  directoryChecks DirectoryCheck[]
+
+  @@index([state, city])
+  @@index([isActive])
+}
+
+model DirectoryCheck {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  marketId  String
+  market    Market   @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  target    String   # e.g. "Google Business Profile", "Yelp", "Nextdoor", "Bing Places", "Apple Maps"
+  status    String   # e.g. "claimed", "unclaimed", "needs_fix", "ok"
+  lastCheckedAt DateTime?
+  evidenceUrl String?
+  notes     String?
+
+  @@index([marketId])
+  @@index([status])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+
+  name        String
+  source      String   # web, server, admin, worker
+  sessionId   String?
+  deviceId    String?  # first-party device id (random UUID cookie/localStorage)
+  userId      String?
+
+  # attribution
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  utmTerm     String?
+  utmContent  String?
+  referrer    String?
+  landingUrl  String?
+
+  # optional click IDs captured from URL params (when present)
+  gclid       String?
+  gbraid      String?
+  wbraid      String?
+  msclkid     String?
+  fbclid      String?
+  ttclid      String?
+
+  # payload + routing
+  payloadJson   Json
+  consentJson   Json
+  forwardedJson Json?
+
+  # idempotency/dedupe
+  externalEventId String?  @unique
+
+  @@index([name, createdAt])
+  @@index([sessionId])
+  @@index([userId])
+  @@index([gclid])
+  @@index([msclkid])
+  @@index([fbclid])
+}
+
+model Conversion {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  # lifecycle: lead | booked | completed | cancelled | refunded
+  status      String
+  valueCents  Int?
+  currency    String? @default("USD")
+
+  leadId      String?
+  jobId       String?
+  invoiceId   String?
+
+  # tie-back for attribution snapshot
+  sessionId   String?
+  deviceId    String?
+  userId      String?
+
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  gclid       String?
+  msclkid     String?
+
+  payloadJson Json
+
+  @@index([status, createdAt])
+  @@index([leadId])
+  @@index([jobId])
+  @@index([gclid])
+  @@index([msclkid])
+}
+
+model Article {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  slug        String   @unique
+  title       String
+  excerpt     String?
+  body        String
+
+  tags        String[] @default([])
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+
+  # SEO / AI citation readiness
+  faqJson     Json?
+  schemaJson  Json?
+
+  @@index([isPublished, publishedAt])
+  @@index([slug])
+}
+
+model MediaItem {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  slug        String   @unique
+  title       String
+  type        String   # video | pdf | image | other
+  url         String
+  description String?
+  tags        String[] @default([])
+
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+
+  @@index([isPublished, publishedAt])
+  @@index([type])
+}

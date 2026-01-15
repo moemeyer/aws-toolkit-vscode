@@ -1,0 +1,30 @@
+# Canonical Entities
+# Define shared entities across the platform
+
+entities:
+  # Example entry:
+  # - name: User
+  #   definition: "A person who uses the platform"
+  #   owner: identity-service
+  #   id_format: "uuid-v4"
+  #   id_example: "550e8400-e29b-41d4-a716-446655440000"
+  #   lifecycle:
+  #     - created
+  #     - active
+  #     - suspended
+  #     - deleted
+  #   required_fields:
+  #     - id
+  #     - email
+  #     - created_at
+  #   optional_fields:
+  #     - name
+  #     - phone
+  #   sensitive_fields:
+  #     - email
+  #     - phone
+  #   aliases:
+  #     - "Account"  # deprecated
+  #     - "Profile"  # deprecated
+
+  # Add your entities here

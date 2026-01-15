@@ -1,0 +1,27 @@
+# Ownership & Source of Truth
+# Define who owns what and conflict resolution rules
+
+ownership:
+  # Example entry:
+  # - entity: User
+  #   source_of_truth: identity-service
+  #   write_authority: identity-service
+  #   read_replicas:
+  #     - analytics-service (read-only cache)
+  #   conflict_resolution: source_of_truth_wins
+  #   sync_method: event-driven
+  #   sync_sla: eventual_consistency_5min
+
+  # - entity: Order
+  #   source_of_truth: order-service
+  #   write_authority: order-service
+  #   conflict_resolution: last_write_wins_with_timestamp
+  #   version_control: optimistic_locking
+
+  # Add your ownership rules here
+
+conflict_resolution_policies:
+  source_of_truth_wins: "Always prefer the source of truth service"
+  last_write_wins_with_timestamp: "Most recent timestamp wins"
+  optimistic_locking: "Version-based conflict detection"
+  manual_resolution: "Requires human intervention"

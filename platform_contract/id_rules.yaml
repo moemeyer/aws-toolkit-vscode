@@ -1,0 +1,47 @@
+# ID Rules & Formats
+# Define ID formats, constraints, and idempotency keys
+
+id_policies:
+  # Example entries:
+  # user_id:
+  #   format: uuid-v4
+  #   example: "550e8400-e29b-41d4-a716-446655440000"
+  #   constraints:
+  #     - stable: true
+  #     - unique: global
+  #     - guessable: false
+  #     - traceable: true
+  #   generation: service  # service | client | database
+
+  # order_id:
+  #   format: "ORD-{timestamp}-{random}"
+  #   example: "ORD-20250115-A8F92B"
+  #   constraints:
+  #     - stable: true
+  #     - unique: global
+  #     - sortable: true
+  #   generation: service
+
+  # Add your ID rules here
+
+idempotency_keys:
+  # Define idempotency key formats per operation
+  # Example:
+  # create_user:
+  #   format: "create_user:{client_id}:{timestamp}:{nonce}"
+  #   ttl: 24h
+  #   storage: redis
+
+  # process_payment:
+  #   format: "payment:{order_id}:{attempt_id}"
+  #   ttl: 7d
+  #   storage: database
+
+  # Add your idempotency rules here
+
+general_rules:
+  - Never expose sequential IDs (security risk)
+  - Always use stable IDs for external APIs
+  - Use UUIDs for most entities unless specific format needed
+  - Include type prefix for human-readable IDs
+  - Store idempotency keys with TTL matching business requirements

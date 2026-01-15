@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "name": "anonymous-platform-skillpack",
+  "description": "Anonymous skill bundle for platform consolidation, RAG governance, and API/event unification.",
+  "version": "1.0.0",
+  "author": "Anonymous",
+  "license": "MIT",
+  "source": ".",
+  "skills": [
+    ".claude/skills/state-reconstruction",
+    ".claude/skills/chronology-resolution",
+    ".claude/skills/conflict-surfacing",
+    ".claude/skills/assumption-gate",
+    ".claude/skills/dependency-graph",
+    ".claude/skills/scope-lock",
+    ".claude/skills/spec-to-plan",
+    ".claude/skills/delivery-packager",
+    ".claude/skills/rag-source-ranking",
+    ".claude/skills/schema-alignment",
+    ".claude/skills/entity-normalization",
+    ".claude/skills/citation-and-provenance",
+    ".claude/skills/retrieval-query-writer",
+    ".claude/skills/document-diff-and-merge",
+    ".claude/skills/truth-maintenance-log",
+    ".claude/skills/api-surface-mapper",
+    ".claude/skills/webhook-contract-validator",
+    ".claude/skills/event-taxonomy-builder",
+    ".claude/skills/idempotency-and-retry",
+    ".claude/skills/secrets-and-config-hygiene",
+    ".claude/skills/integration-test-harness",
+    ".claude/skills/observability-contracts",
+    ".claude/skills/no-unknowns-hard-stop",
+    ".claude/skills/least-privilege-tools",
+    ".claude/skills/prompt-injection-guard",
+    ".claude/skills/data-minimization",
+    ".claude/skills/privacy-redaction",
+    ".claude/skills/change-control-and-audit"
+  ],
+  "categories": [
+    "core_reasoning",
+    "data_rag",
+    "integrations",
+    "governance"
+  ],
+  "tags": [
+    "platform-consolidation",
+    "rag-governance",
+    "api-unification",
+    "event-taxonomy",
+    "security",
+    "compliance"
+  ]
+}

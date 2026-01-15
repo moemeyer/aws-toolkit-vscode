@@ -1,0 +1,18 @@
+# Services Inventory
+# List all platform services with ownership and responsibility
+
+services:
+  # Example entry:
+  # - name: service-name
+  #   owner: team-name
+  #   repo: github.com/org/repo
+  #   responsibilities:
+  #     - "What this service does"
+  #   dependencies:
+  #     - other-service-name
+  #   shared_entities:
+  #     - entity-name
+  #   api_base: https://api.example.com/v1
+  #   status: active  # active | deprecated | planned
+
+  # Add your services here

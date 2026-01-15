@@ -1,0 +1,27 @@
+# Canonical Events
+# Define platform events, versions, and schemas
+
+events:
+  # Example entry:
+  # - name: user.created
+  #   version: v1
+  #   producer: identity-service
+  #   consumers:
+  #     - analytics-service
+  #     - notification-service
+  #   schema_ref: schemas/user_created_v1.json
+  #   required_fields:
+  #     - event_id
+  #     - event_time
+  #     - user_id
+  #   optional_fields:
+  #     - metadata
+  #   delivery: webhook  # webhook | queue | stream
+  #   idempotency_key: event_id
+  #   retry_policy:
+  #     max_attempts: 3
+  #     backoff: exponential
+  #   status: active  # active | deprecated
+  #   deprecated_by: user.created.v2  # if deprecated
+
+  # Add your events here
